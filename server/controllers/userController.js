@@ -1,10 +1,10 @@
-const userModel = require("../models/userModel");
-const bcrypt = require("bcryptjs");
-const JWT = require("jsonwebtoken");
-const { upload } = require("../helper/multer");
+import { userModel } from "../models/userModel.js";
+import bcrypt from "bcryptjs";
+import JWT from "jsonwebtoken";
+import { upload } from "../helper/multer.js";
 
 // User Registration
-const userRegister = async (req, res) => {
+export const userRegister = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
@@ -30,7 +30,7 @@ const userRegister = async (req, res) => {
 };
 
 // User Login
-const userLogin = async (req, res) => {
+export const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -67,7 +67,7 @@ const userLogin = async (req, res) => {
 };
 
 // Get user
-const getUser = async (req, res) => {
+export const getUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await userModel.findById(id);
@@ -81,7 +81,7 @@ const getUser = async (req, res) => {
 };
 
 // Upload Avatar
-const uploadAvatar = async (req, res, next) => {
+export const uploadAvatar = async (req, res, next) => {
   try {
     // Retrieve the user ID from the request (assuming it's stored in req.user.id)
     const userId = req.user.id;
@@ -126,7 +126,7 @@ const uploadAvatar = async (req, res, next) => {
 };
 
 // Update user
-const updateUser = async (req, res, next) => {
+export const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const {
@@ -168,12 +168,4 @@ const updateUser = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
-};
-
-module.exports = {
-  userRegister,
-  userLogin,
-  getUser,
-  uploadAvatar,
-  updateUser,
 };

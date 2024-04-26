@@ -1,9 +1,9 @@
-const { upload } = require("../helper/multer");
-const postModel = require("../models/postModel");
-const userModel = require("../models/userModel");
+import { upload } from "../helper/multer.js";
+import { postModel } from "../models/postModel.js";
+import { userModel } from "../models/userModel.js";
 
 // Create Post
-const createPost = async (req, res, next) => {
+export const createPost = async (req, res, next) => {
   try {
     const { title, description, category } = req.body;
     const thumbnail = req.file?.name;
@@ -34,7 +34,7 @@ const createPost = async (req, res, next) => {
 };
 
 // Thumbnail upload
-const uploadThumbnail = async (req, res, next) => {
+export const uploadThumbnail = async (req, res, next) => {
   try {
     upload.single("thumbnail")(req, res, async (err) => {
       if (err) {
@@ -52,7 +52,7 @@ const uploadThumbnail = async (req, res, next) => {
 
 // Get All Posts
 
-const getAllPosts = async (req, res) => {
+export const getAllPosts = async (req, res) => {
   try {
     const posts = await postModel
       .find({})
@@ -69,7 +69,7 @@ const getAllPosts = async (req, res) => {
 
 // Get Single Post
 
-const getSinglePost = async (req, res) => {
+export const getSinglePost = async (req, res) => {
   try {
     const { id } = req.params;
     const post = await postModel
@@ -86,7 +86,7 @@ const getSinglePost = async (req, res) => {
 
 // Get Post By Category
 
-const getCategoryPost = async (req, res) => {
+export const getCategoryPost = async (req, res) => {
   try {
     const { category } = req.params;
     const posts = await postModel
@@ -107,7 +107,7 @@ const getCategoryPost = async (req, res) => {
 
 // Get Author Post
 
-const getAuthorPost = async (req, res) => {
+export const getAuthorPost = async (req, res) => {
   try {
     const { id } = req.params;
     const posts = await postModel.find({ author: id }).sort({ uploadedAt: -1 });
@@ -124,7 +124,7 @@ const getAuthorPost = async (req, res) => {
 
 // Edit Post
 
-const editPost = async (req, res) => {
+export const editPost = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, category } = req.body;
@@ -156,7 +156,7 @@ const editPost = async (req, res) => {
 
 // Delete Post
 
-const deletePost = async (req, res) => {
+export const deletePost = async (req, res) => {
   try {
     const { id } = req.params;
     const authorId = req.user.id;
@@ -180,15 +180,4 @@ const deletePost = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
-};
-
-module.exports = {
-  createPost,
-  uploadThumbnail,
-  getAllPosts,
-  getSinglePost,
-  getCategoryPost,
-  getAuthorPost,
-  editPost,
-  deletePost,
 };

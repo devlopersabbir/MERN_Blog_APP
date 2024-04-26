@@ -1,5 +1,5 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   createPost,
   uploadThumbnail,
   getAllPosts,
@@ -8,10 +8,9 @@ const {
   getAuthorPost,
   editPost,
   deletePost,
-  getCategory,
-} = require("../controllers/postController");
-const { authMiddleware } = require("../middleware/authMiddleware");
-const { upload } = require("../helper/multer");
+} from "../controllers/postController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
+import { upload } from "../helper/multer.js";
 
 const postRouter = express.Router();
 
@@ -29,6 +28,4 @@ postRouter.get("/post/category/:category", getCategoryPost);
 postRouter.put("/post/edit/:id", authMiddleware, editPost);
 postRouter.delete("/post/delete/:id", authMiddleware, deletePost);
 
-module.exports = {
-  postRouter,
-};
+export default postRouter;

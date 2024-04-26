@@ -1,4 +1,5 @@
-const express = require("express");
+import express from "express";
+
 const {
   getCategory,
   createCategory,
@@ -8,7 +9,4 @@ const categoryRouter = express.Router();
 
 categoryRouter.get("/post/category", getCategory);
 categoryRouter.post("/post/category/create", createCategory);
-
-module.exports = {
-  categoryRouter,
-};
+export default categoryRouter;

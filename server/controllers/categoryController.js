@@ -1,8 +1,7 @@
 // Create Category
+import { categoryModel } from "../models/categoryModel.js";
 
-const categoryModel = require("../models/categoryModel");
-
-const createCategory = async (req, res) => {
+export const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
     if (!name) {
@@ -21,7 +20,7 @@ const createCategory = async (req, res) => {
 
 // Get All Category
 
-const getCategory = async (req, res) => {
+export const getCategory = async (req, res) => {
   try {
     const categories = await categoryModel.find({});
     if (!categories) {
@@ -31,9 +30,4 @@ const getCategory = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
-};
-
-module.exports = {
-  getCategory,
-  createCategory,
 };

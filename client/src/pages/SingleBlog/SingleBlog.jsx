@@ -7,8 +7,10 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../../component/Loading/Loading";
 import Relavent from "../../component/Relavent/Relavent";
+import { apiRequest } from "../../provider/axios";
 
 const SingleBlog = () => {
+  const [token, setToken] = useState("");
   const BASE_URL = "http://localhost:3000/api";
   const { setSinglePost, singlePost, fetchPosts } = useContext(GlobalContext);
   const { id } = useParams();
@@ -19,7 +21,6 @@ const SingleBlog = () => {
   // const postUrl = `http://localhost:5173${location?.pathname}`;
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
   // Single post
   useEffect(() => {
@@ -40,13 +41,10 @@ const SingleBlog = () => {
 
   const deletePost = async () => {
     try {
-      console.log("token", token);
-      const { data } = await axios.delete(`${BASE_URL}/post/delete/${id}`, {
-        withCredentials: true,
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiRequest.delete(`/post/delete/${id}`);
+      console.log("res: ", res);
+
       navigate("/");
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -54,6 +52,9 @@ const SingleBlog = () => {
 
   useEffect(() => {
     fetchPosts();
+    const token = localStorage.getItem("token");
+    if (!token) return console.log("token not found");
+    setToken(token);
   }, []);
 
   return (
@@ -77,7 +78,7 @@ const SingleBlog = () => {
                 {singlePost?.author?._id === authorId && (
                   <div className="edit-delete">
                     <button className="btn">Edit</button>
-                    <button className="btn-delete" onClick={() => deletePost()}>
+                    <button className="btn-delete" onClick={deletePost}>
                       Delete
                     </button>
                   </div>
